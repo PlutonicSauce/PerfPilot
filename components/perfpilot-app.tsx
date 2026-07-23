@@ -45,7 +45,7 @@ export function PerfPilotApp() {
   return <main>
     <header className="topbar">
       <a className="brand" href="#top" aria-label="PerfPilot home"><span className="brand-mark"><Icon name="pulse" /></span><span>PerfPilot</span></a>
-      <nav aria-label="Main navigation"><a href="#product">Product</a><a href="#workflow">Workflow</a><a href="https://github.com" target="_blank">GitHub</a></nav>
+      <nav aria-label="Main navigation"><a href="#product">Product</a><a href="#workflow">Workflow</a><a href="https://github.com/PlutonicSauce/PerfPilot" target="_blank" rel="noreferrer">GitHub</a></nav>
       <button className="sign-in" onClick={() => setNotice("Connect GitHub to analyze your repositories.")}>Sign in <Icon name="arrow" /></button>
     </header>
 
