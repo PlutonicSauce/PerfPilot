@@ -1,0 +1,32 @@
+name: PerfPilot
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PerfPilot local service
+        run: pip install -r backend/requirements.txt
+      - name: Run reproducible local benchmark
+        run: |
+          python -m uvicorn backend.main:app --port 8000 &
+          sleep 2
+          curl --fail --request POST http://localhost:8000/v1/benchmarks/run \
+            --header 'content-type: application/json' \
+            --data '{"iterations":100,"workload_size":4000}' > perfpilot-evidence.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: perfpilot-evidence
+          path: perfpilot-evidence.json
